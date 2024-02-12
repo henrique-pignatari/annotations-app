@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Annotation {
+  id         String                    @id @default(uuid())
+  text       String
+  title      String
+  image      String?
+  createdAt  DateTime                  @default(now())
+  updatedAt  DateTime                  @default(now())
+  categories CategoriesOnAnnotations[]
+}
+
+model Category {
+  id          String                    @id @default(uuid())
+  annotations CategoriesOnAnnotations[]
+}
+
+model CategoriesOnAnnotations {
+  id           String     @id @default(uuid())
+  annotation   Annotation @relation(fields: [annotationId], references: [id])
+  annotationId String
+  category     Category   @relation(fields: [categoryId], references: [id])
+  categoryId   String
+
+  @@unique([annotationId, categoryId])
+}
