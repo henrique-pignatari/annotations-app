@@ -1,12 +1,10 @@
 import { Module } from "@nestjs/common";
 import { AnnotationsController } from "./annotations.controller";
-import { AnnotationsService } from "./annotations.service";
-import { InfraDataModule } from "src/infra/data/infra.data.module";
-import { AnnotationsMapper } from "src/application/mappers/annotationsMapper";
+import { ApplicationLayerModule } from "src/application/application.module";
 
 @Module({
-    imports:[InfraDataModule],
+    imports:[ApplicationLayerModule],
     controllers: [AnnotationsController],
-    providers: [AnnotationsService, AnnotationsMapper],
+    providers: [],
 })
 export class AnnotationsModule {}

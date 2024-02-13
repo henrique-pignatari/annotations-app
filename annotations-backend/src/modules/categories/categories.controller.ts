@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { CategoriesService } from "./categories.service";
 import { CategoriesReceiveDTO } from "src/application/dtos/categories/categoriesReceiveDTO";
+import { ICategoriesService } from "src/application/abstracts/services/categories/ICategoriesService";
 
 @Controller("/categories")
 export class CategoriesController{
     constructor(
-        private categoriesService: CategoriesService
+        private categoriesService: ICategoriesService
     ){}
 
     @Post()

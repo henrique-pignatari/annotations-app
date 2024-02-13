@@ -1,12 +1,10 @@
 import { Module } from "@nestjs/common";
-import { InfraDataModule } from "src/infra/data/infra.data.module";
-import { CategoriesService } from "./categories.service";
-import { CategoriesMapper } from "src/application/mappers/categoryMapper";
 import { CategoriesController } from "./categories.controller";
+import { ApplicationLayerModule } from "src/application/application.module";
 
 @Module({
-    imports:[InfraDataModule],
+    imports:[ApplicationLayerModule],
     controllers:[CategoriesController],
-    providers: [CategoriesService, CategoriesMapper]
+    providers: []
 })
 export class CategoriesModule {}
