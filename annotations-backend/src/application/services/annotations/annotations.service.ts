@@ -23,7 +23,7 @@ export class AnnotationsService implements IAnnotationsService {
         return await this.annotationsRepository.getById(id)
     }
 
-    async get(take: number, skip: number): Promise<Annotation[]>{
+    async get(take: number = 0, skip: number = 0): Promise<Annotation[]>{
         return await this.annotationsRepository.getAll(take, skip)
     }
 

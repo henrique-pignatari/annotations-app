@@ -7,7 +7,7 @@ export class PrismaAnnotationsRepository implements IAnnotationsrepository{
     @Inject()
     private prisma: PrismaService
 
-    async getAll(take: number, skip: number): Promise<Annotation[]> {
+    async getAll(take: number = 0, skip: number = 0): Promise<Annotation[]> {
         const results = await this.prisma.annotation.findMany({
             skip,
             take,
@@ -79,6 +79,21 @@ export class PrismaAnnotationsRepository implements IAnnotationsrepository{
     }
 
     async update(id: string, item: Annotation): Promise<string> {
+        const categories = item.categories.map(
+            ({categoryId}) => {
+                return {
+                    where: {
+                        annotationId_categoryId: {
+                            annotationId: id,
+                            categoryId
+                        }                  
+                    },
+                    create:{
+                        categoryId
+                    }
+                }
+            })
+
         const annotation = await this.prisma.annotation.update({
             where:{
                 id
@@ -89,9 +104,7 @@ export class PrismaAnnotationsRepository implements IAnnotationsrepository{
                 image: item.image,
                 updatedAt: new Date(),
                 categories: {
-                    createMany:{
-                        data: item.categories.map(category => ({categoryId: category.id}))
-                    }
+                    connectOrCreate: categories
                 }
             }
         })

@@ -7,7 +7,7 @@ export class PrismaCategoriesRepository implements ICategoriesRepository{
     @Inject()
     private prisma: PrismaService
 
-    async getAll(take = 0, skip = 0): Promise<Category[]> {
+    async getAll(take: number = 0, skip: number = 0): Promise<Category[]> {
         const results = await this.prisma.category.findMany({
             skip: skip,
             take,
