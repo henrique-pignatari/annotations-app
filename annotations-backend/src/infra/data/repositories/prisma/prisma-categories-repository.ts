@@ -7,9 +7,9 @@ export class PrismaCategoriesRepository implements ICategoriesRepository{
     @Inject()
     private prisma: PrismaService
 
-    async getAll(take: number, skip: number): Promise<Category[]> {
+    async getAll(take = 0, skip = 0): Promise<Category[]> {
         const results = await this.prisma.category.findMany({
-            skip,
+            skip: skip,
             take,
         })
 
@@ -42,6 +42,7 @@ export class PrismaCategoriesRepository implements ICategoriesRepository{
             },
             data:{
                 title: item.title,
+                updatedAt: new Date()
             }
         })
 

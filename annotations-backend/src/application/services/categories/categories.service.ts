@@ -23,7 +23,7 @@ export class CategoriesService implements ICategoriesService{
         return await this.categoriesRepository.getById(id)
     }
 
-    async get(take: number, skip: number): Promise<Category[]>{
+    async get(take: number= 0, skip: number = 0): Promise<Category[]>{
         return await this.categoriesRepository.getAll(take, skip)
     }
 
