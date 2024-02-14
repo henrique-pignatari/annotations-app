@@ -79,8 +79,9 @@ export class PrismaAnnotationsRepository implements IAnnotationsrepository{
     }
 
     async update(id: string, item: Annotation): Promise<string> {
-        const categories = item.categories.map(
-            ({categoryId}) => {
+        const categoriesIds = item.categories.map(({categoryId}) => categoryId)
+        const categories = categoriesIds.map(
+            (categoryId) => {
                 return {
                     where: {
                         annotationId_categoryId: {
@@ -104,7 +105,12 @@ export class PrismaAnnotationsRepository implements IAnnotationsrepository{
                 image: item.image,
                 updatedAt: new Date(),
                 categories: {
-                    connectOrCreate: categories
+                    connectOrCreate: categories,
+                    deleteMany:{
+                        categoryId: {
+                            notIn: categoriesIds
+                        }
+                    }
                 }
             }
         })
