@@ -8,3 +8,17 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=senha123
       - POSTGRES_DB=pg_annotations
+  
+  annotations_api:
+    container_name: annotations_api
+    build:
+      context: ./annotations-backend/
+      dockerfile: Dockerfile
+    depends_on:
+      - annotations_db
+    ports:
+      - 80:80 
+    restart: "always"   
+    environment:
+      - DATABASE_URL=postgresql://admin:senha123@annotations_db/pg_annotations?schema=public
+      - API_PORT=80
